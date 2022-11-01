@@ -261,10 +261,10 @@ html, body, .map-container {
     animation: BombDefused 2s 1 forwards;
 }
 .map .player.CT .label {
-    background: rgb(16, 88, 197)
+    background: #219aed;
 }
 .map .player.T .label {
-    background: rgb(255, 153, 0);
+    background: #edb121;
 }
 .map .player.T.hasBomb .label {
     background: red;

@@ -1,4 +1,4 @@
-import { Player, Side } from "csgogsi";
+import { Player, Side } from "csgogsi-socket";
 
 export interface RadarPlayerObject {
     id: string,

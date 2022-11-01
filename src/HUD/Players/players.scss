@@ -26,7 +26,7 @@
                 .grenades {
                     padding-right: 5px;
                 }
-                
+
                 .armor_and_utility {
                     justify-content: flex-start;
                 }
@@ -39,7 +39,6 @@
                 .secondary_weapon {
                     padding-right: 10px;
                 }
-                
             }
             .dead-stats {
                 right: 8px;
@@ -78,7 +77,7 @@
                     .money {
                         margin-left: auto;
                         justify-content: flex-end;
-                    } 
+                    }
                     .weapon {
                         transform: scaleX(-1);
                     }
@@ -88,7 +87,7 @@
                 }
             }
         }
-    }  
+    }
     .player {
         width: 645px;
         height: 70px;
@@ -134,9 +133,6 @@
                 }
             }
         }
-        &:last-child .player_data {
-            border-radius: 0 0 20px 20px;
-        }
         .player_side_bar {
             width: 10px;
             height: 70px;
@@ -157,11 +153,13 @@
             color: white;
             opacity: 0.75;
             top: 10%;
-            .labels, .values {
+            .labels,
+            .values {
                 display: flex;
                 flex-direction: row;
                 flex: 1;
-                .stat-label, .stat-value {
+                .stat-label,
+                .stat-value {
                     display: flex;
                     flex: 1;
                     align-items: center;
@@ -176,6 +174,7 @@
             flex-direction: row;
             position: relative;
             height: 100%;
+            border-radius: var(--rounded-lg);
             .player_stats {
                 display: flex;
                 flex-direction: column;
@@ -197,7 +196,8 @@
                             filter: invert(0);
                         }
                     }
-                    .hp_background, .hp_background_2 {
+                    .hp_background,
+                    .hp_background_2 {
                         position: absolute;
                         width: 100%;
                         height: 100%;
@@ -213,7 +213,9 @@
                         align-items: center;
                         padding-left: 5px;
                         padding-right: 5px;
-                        .armor_indicator, .bomb_indicator, .defuse_indicator {
+                        .armor_indicator,
+                        .bomb_indicator,
+                        .defuse_indicator {
                             svg {
                                 max-height: 20px;
                                 fill: white;
@@ -237,9 +239,10 @@
                         font-size: 18px;
                         text-overflow: ellipsis;
                         white-space: nowrap;
+                        text-transform: uppercase;
                         .roundkills-container {
                             position: absolute;
-                            background-image: url('./../../assets/images/icon_skull_default.svg');
+                            background-image: url("./../../assets/images/icon_skull_default.svg");
                             background-repeat: no-repeat;
                             background-size: 10px;
                             background-position: left 2px;
@@ -248,7 +251,7 @@
                         }
                         div span {
                             opacity: 0.6;
-                            font-size:15px;
+                            font-size: 15px;
                         }
                         svg.weapon {
                             max-height: 30px;
@@ -284,7 +287,7 @@
                         z-index: 1;
                         color: white;
                         font-weight: 600;
-                        font-size:18px;
+                        font-size: 18px;
                     }
                     .secondary_weapon {
                         display: flex;
@@ -304,8 +307,8 @@
                 overflow: hidden;
                 position: relative;
                 .videofeed {
-                    width:70px;
-                    height:70px;
+                    width: 70px;
+                    height: 70px;
                     position: absolute;
                     display: flex;
                     justify-content: center;
@@ -315,7 +318,7 @@
                     }
                 }
                 img {
-                    border-radius:50%;
+                    border-radius: 50%;
                 }
             }
         }
@@ -326,12 +329,14 @@
     display: flex;
     flex-direction: column;
     width: 180px;
-    background-color: rgba(0,0,0,0.5);
+    background-color: rgba(0, 0, 0, 0.5);
     position: fixed;
     right: 10px;
     top: 10px;
     opacity: 1;
     transition: opacity 1s;
+    overflow: hidden;
+    border-radius: var(--rounded-lg);
     .counter_container {
         display: flex;
         height: 45px;
@@ -340,12 +345,12 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size:30px;
+            font-size: 30px;
             color: white;
-            background-color: rgba(0,0,0,0.5);
+            background-color: rgba(0, 0, 0, 0.5);
         }
         .team_counter {
-            background-color: rgba(0,0,0,0.75);
+            background-color: rgba(0, 0, 0, 0.75);
         }
         .CT {
             color: var(--color-new-ct);
@@ -358,12 +363,12 @@
         color: white;
         text-transform: uppercase;
         text-align: center;
-        height:20px;
-        font-size:14px;
+        height: 20px;
+        font-size: 14px;
         display: flex;
         align-items: center;
         justify-content: center;
-        background-color: rgba(0,0,0,0.75);
+        background-color: rgba(0, 0, 0, 0.75);
     }
     &.hide {
         opacity: 0;
