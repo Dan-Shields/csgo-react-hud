@@ -177,7 +177,7 @@ export default class TeamBox extends React.Component<IProps, IState> {
         const { map } = this.props;
         const round = map.round + 1;
         if (round <= 30) {
-            return `Round ${round}/30`;
+            return `ROUND ${round}/30`;
         }
         const additionalRounds = round - 30;
         const OT = Math.ceil(additionalRounds / 6);
@@ -214,24 +214,20 @@ export default class TeamBox extends React.Component<IProps, IState> {
                         timer={leftTimer}
                         showWin={winState.show && winState.side === "left"}
                     />
-                    <div className={`score left ${left.side}`}>
-                        {left.score}
-                    </div>
+                    <div className={`score left`}>{left.score}</div>
                     <div id="timer" className={bo === 0 ? "no-bo" : ""}>
+                        <div id="round_now" className={isPlanted ? "hide" : ""}>
+                            {this.getRoundLabel()}
+                        </div>
                         <div
                             id={`round_timer_text`}
                             className={isPlanted ? "hide" : ""}
                         >
                             {time}
                         </div>
-                        <div id="round_now" className={isPlanted ? "hide" : ""}>
-                            {this.getRoundLabel()}
-                        </div>
                         <Bomb />
                     </div>
-                    <div className={`score right ${right.side}`}>
-                        {right.score}
-                    </div>
+                    <div className={`score right`}>{right.score}</div>
                     <TeamScore
                         team={right}
                         orientation={"right"}
