@@ -5,9 +5,8 @@ import "./fonts/Akshar-VariableFont_wght.ttf";
 import App from "./App";
 declare global {
     interface Window {
-        ipcApi: {
-            send: (channel: string, ...arg: any) => void;
-            receive: (channel: string, func: (...arg: any) => void) => void;
+        electronAPI: {
+            onCsgoRaw: (cb: (raw: any) => void) => void;
         };
     }
 }

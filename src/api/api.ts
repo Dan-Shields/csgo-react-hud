@@ -5,10 +5,10 @@ import { MapConfig } from "../HUD/Radar/LexoRadar/maps";
 const query = queryString.parseUrl(window.location.href).query;
 export const port = (query && Number(query.port)) || 1350;
 
-export const isDev = !query.isProd;
+export const isDev = query.isDev;
 
 export const config = {
-    apiAddress: isDev ? `http://localhost:${port}/api/csgo/` : "/",
+    apiAddress: isDev ? `http://localhost:${port}/api/csgo/` : "/api/csgo",
 };
 export const apiUrl = config.apiAddress;
 
@@ -24,7 +24,7 @@ export async function apiV2(url: string, method = "GET", body?: any) {
         options.body = JSON.stringify(body);
     }
     let data: any = null;
-    return fetch(`${apiUrl}api/${url}`, options).then((res) => {
+    return fetch(`${apiUrl}/${url}`, options).then((res) => {
         data = res;
         return res.json().catch((_e) => data && data.status < 300);
     });

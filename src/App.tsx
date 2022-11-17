@@ -1,6 +1,6 @@
 import React from "react";
 import Layout from "./HUD/Layout/Layout";
-import api, { port, isDev } from "./api/api";
+import api from "./api/api";
 import { loadAvatarURL } from "./api/avatars";
 import ActionManager, { ConfigManager } from "./api/actionManager";
 
@@ -8,20 +8,20 @@ import { CSGO, PlayerExtension, GSISocket, CSGORaw } from "csgogsi-socket";
 import { Match } from "./api/interfaces";
 import { initiateConnection } from "./HUD/Camera/mediaStream";
 
-let isInWindow = !!window.parent.ipcApi;
+import exampleGsi from "./example_gsi.json";
 
-export const { GSI, socket } = GSISocket(`localhost:${port}`, "update_csgo");
+let isInWindow = !!window.parent.electronAPI;
+
+export const { GSI, socket } = GSISocket(`localhost:1337`, "update_csgo");
 
 if (isInWindow) {
-    window.parent.ipcApi.receive(
-        "raw",
-        (data: CSGORaw, damage?: RoundDamage[]) => {
-            if (damage) {
-                GSI.damage = damage;
-            }
-            GSI.digest(data);
-        }
-    );
+    window.parent.electronAPI.onCsgoRaw((data: CSGORaw) => {
+        GSI.digest(data);
+    });
+} else {
+    setInterval(() => {
+        GSI.digest(exampleGsi as CSGORaw);
+    }, 500);
 }
 
 type RoundPlayerDamage = {
@@ -118,6 +118,9 @@ class App extends React.Component<
 
     componentDidMount() {
         this.loadMatch();
+
+        setInterval(this.loadMatch, 1000, true);
+
         const href = window.location.href;
         socket.emit("started");
         let isDev = false;
