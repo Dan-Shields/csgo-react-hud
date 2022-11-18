@@ -20,21 +20,7 @@ export default class Killfeed extends React.Component<
     constructor(props: any) {
         super(props);
         this.state = {
-            events: [
-                {
-                    killer: props.killer,
-                    victim: props.victim,
-                    assister: null,
-                    flashed: false,
-                    headshot: true,
-                    weapon: "ak47",
-                    wallbang: false,
-                    attackerblind: false,
-                    thrusmoke: false,
-                    noscope: false,
-                    type: "kill",
-                },
-            ],
+            events: [],
         };
     }
     addKill = (kill: KillEvent) => {

@@ -113,7 +113,7 @@ export default class Layout extends React.Component<Props, State> {
                         </div>
                     </div>
                 </div>
-                <Killfeed killer={game.players[0]} victim={game.players[1]} />
+                <Killfeed />
                 <Overview
                     match={match}
                     map={game.map}
