@@ -97,7 +97,7 @@
         height: 50px;
         line-height: 1;
         justify-content: center;
-        font-size: 45px;
+        font-size: 48px;
         font-weight: bold;
         z-index: 1;
         color: var(--white-full);
@@ -114,10 +114,10 @@
         height: 27px;
         align-items: center;
         justify-content: center;
-        font-size: 14px;
-        font-weight: bold;
+        font-weight: 500;
         z-index: 1;
         color: var(--white-full);
+        padding-top: 5px;
         &.hide {
             display: none;
         }

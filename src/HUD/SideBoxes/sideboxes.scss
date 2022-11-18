@@ -83,7 +83,7 @@
     margin-top: 4px;
     flex-direction: column;
     margin-bottom: 4px;
-    border-radius: var(--rounded-lg);
+    border-radius: var(--rounded-sm);
     .title_container {
         display: flex;
         flex-direction: row;
@@ -132,7 +132,7 @@
     margin-top: 4px;
     font-weight: 600;
     margin-bottom: 0px;
-    border-radius: var(--rounded-lg);
+    border-radius: var(--rounded-sm);
     .money_container {
         display: flex;
         flex-direction: column;
@@ -155,7 +155,7 @@
     }
     .loss_container {
         margin: 0 6px;
-        width: 4px;
+        width: 40px;
         display: flex;
         align-items: center;
         flex-direction: column;
@@ -212,12 +212,20 @@
         .title {
             color: var(--color-new-ct);
         }
+
+        &:last-child {
+            margin-right: 18px;
+        }
     }
 }
 .moneybox.T {
     .money_container {
         .title {
             color: var(--color-new-t);
+        }
+
+        &:last-child {
+            margin-left: 18px;
         }
     }
 }

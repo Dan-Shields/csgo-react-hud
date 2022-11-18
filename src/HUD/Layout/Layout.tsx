@@ -2,7 +2,6 @@ import React from "react";
 import TeamBox from "./../Players/TeamBox";
 import MatchBar from "../MatchBar/MatchBar";
 import SeriesBox from "../MatchBar/SeriesBox";
-import Observed from "./../Players/Observed";
 import { CSGO, Team } from "csgogsi-socket";
 import { Match } from "../../api/interfaces";
 import RadarMaps from "./../Radar/RadarMaps";
@@ -18,6 +17,9 @@ import Tournament from "../Tournament/Tournament";
 import Pause from "../PauseTimeout/Pause";
 import Timeout from "../PauseTimeout/Timeout";
 import PlayerCamera from "../Camera/Camera";
+import Observed from "../Players/Observed";
+
+import "../Players/players.scss";
 
 interface Props {
     game: CSGO;
@@ -111,7 +113,7 @@ export default class Layout extends React.Component<Props, State> {
                         </div>
                     </div>
                 </div>
-                <Killfeed />
+                <Killfeed killer={game.players[0]} victim={game.players[1]} />
                 <Overview
                     match={match}
                     map={game.map}
@@ -132,11 +134,7 @@ export default class Layout extends React.Component<Props, State> {
                     match={match}
                 />
 
-                <Observed
-                    player={game.player}
-                    veto={this.getVeto()}
-                    round={game.map.round + 1}
-                />
+                {game.player && <Observed player={game.player} />}
 
                 <TeamBox
                     team={left}

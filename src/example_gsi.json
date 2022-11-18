@@ -42,20 +42,20 @@
         "phase": "live"
     },
     "player": {
-        "steamid": "76561198004854956",
+        "steamid": "76561197983956651",
         "name": "dupreeh",
         "observer_slot": 2,
         "team": "CT",
         "activity": "playing",
         "state": {
-            "health": 100,
-            "armor": 100,
+            "health": 75,
+            "armor": 50,
             "helmet": false,
             "flashed": 0,
             "smoked": 0,
             "burning": 0,
             "money": 1600,
-            "round_kills": 0,
+            "round_kills": 2,
             "round_killhs": 0,
             "round_totaldmg": 0,
             "equip_value": 4950
@@ -66,17 +66,17 @@
     },
     "allplayers": {
         "76561197987713664": {
-            "name": "device",
+            "name": "LONG NAME HERE!",
             "observer_slot": 1,
             "team": "CT",
             "state": {
-                "health": 100,
+                "health": 0,
                 "armor": 100,
                 "helmet": true,
                 "flashed": 0,
                 "burning": 0,
                 "money": 0,
-                "round_kills": 0,
+                "round_kills": 1,
                 "round_killhs": 0,
                 "round_totaldmg": 3,
                 "equip_value": 7050
@@ -102,7 +102,7 @@
                     "ammo_clip": 12,
                     "ammo_clip_max": 12,
                     "ammo_reserve": 24,
-                    "state": "holstered"
+                    "state": "active"
                 },
                 "weapon_2": {
                     "name": "weapon_awp",
@@ -111,7 +111,7 @@
                     "ammo_clip": 10,
                     "ammo_clip_max": 10,
                     "ammo_reserve": 30,
-                    "state": "active"
+                    "state": "holstered"
                 },
                 "weapon_3": {
                     "name": "weapon_smokegrenade",
@@ -132,7 +132,7 @@
             "forward": "-0.00, -1.00, -0.04"
         },
         "76561197983695262": {
-            "name": "Edward",
+            "name": "LONG NAME HERE!",
             "observer_slot": 6,
             "team": "T",
             "state": {
@@ -142,7 +142,7 @@
                 "flashed": 0,
                 "burning": 0,
                 "money": 850,
-                "round_kills": 0,
+                "round_kills": 2,
                 "round_killhs": 0,
                 "round_totaldmg": 0,
                 "equip_value": 5000
@@ -348,7 +348,7 @@
             "observer_slot": 8,
             "team": "T",
             "state": {
-                "health": 100,
+                "health": 0,
                 "armor": 100,
                 "helmet": true,
                 "flashed": 0,
@@ -414,12 +414,12 @@
             "observer_slot": 9,
             "team": "T",
             "state": {
-                "health": 100,
+                "health": 40,
                 "armor": 78,
                 "helmet": true,
                 "flashed": 0,
                 "burning": 0,
-                "money": 3000,
+                "money": 160000,
                 "round_kills": 0,
                 "round_killhs": 0,
                 "round_totaldmg": 0,
@@ -472,7 +472,7 @@
             "observer_slot": 3,
             "team": "CT",
             "state": {
-                "health": 100,
+                "health": 55,
                 "armor": 100,
                 "helmet": true,
                 "defusekit": true,
@@ -539,7 +539,7 @@
             "observer_slot": 4,
             "team": "CT",
             "state": {
-                "health": 100,
+                "health": 18,
                 "armor": 100,
                 "helmet": true,
                 "flashed": 0,

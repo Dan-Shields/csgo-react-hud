@@ -1,170 +1,222 @@
 import React from "react";
-import { Player } from "csgogsi-socket";
-import Weapon from "./../Weapon/Weapon";
+import * as I from "csgogsi-socket";
+import Weapon from "../Weapon/Weapon";
 import Avatar from "./Avatar";
-import TeamLogo from "./../MatchBar/TeamLogo";
+import Armor from "../Indicators/Armor";
+import Bomb from "../Indicators/Bomb";
+import Defuse from "../Indicators/Defuse";
 import "./observed.scss";
-import { apiUrl } from "./../../api/api";
-import { getCountry } from "./../countries";
-import {
-    ArmorHelmet,
-    ArmorFull,
-    HealthFull,
-    Bullets,
-} from "./../../assets/Icons";
-import { Veto } from "../../api/interfaces";
-import { actions } from "../../App";
+import { Bullets } from "../../assets/Icons";
 
-class Statistic extends React.PureComponent<{
-    label: string;
-    value: string | number;
-}> {
-    render() {
-        return (
-            <div className="stat">
-                <div className="label">{this.props.label}</div>
-                <div className="value">{this.props.value}</div>
-            </div>
-        );
-    }
+interface IProps {
+    player: I.Player;
 }
 
-export default class Observed extends React.Component<
-    { player: Player | null; veto: Veto | null; round: number },
-    { showCam: boolean }
-> {
-    constructor(props: any) {
-        super(props);
-        this.state = {
-            showCam: true,
-        };
-    }
-    componentDidMount() {
-        actions.on("toggleCams", () => {
-            console.log(this.state.showCam);
-            this.setState({ showCam: !this.state.showCam });
-        });
-    }
-    getAdr = () => {
-        const { veto, player } = this.props;
-        if (!player || !veto || !veto.rounds) return null;
-        const damageInRounds = veto.rounds
-            .map((round) => round.players[player.steamid])
-            .filter((data) => !!data)
-            .map((roundData) => roundData.damage);
-        return (
-            damageInRounds.reduce((a, b) => a + b, 0) / (this.props.round - 1)
-        );
-    };
-    render() {
-        if (!this.props.player) return "";
-        const { player } = this.props;
-        const country = player.country || player.team.country;
-        const weapons = Object.values(player.weapons).map((weapon) => ({
-            ...weapon,
-            name: weapon.name.replace("weapon_", ""),
-        }));
-        const currentWeapon = weapons.filter(
-            (weapon) => weapon.state === "active"
-        )[0];
-        const grenades = weapons.filter((weapon) => weapon.type === "Grenade");
-        const { stats } = player;
-        const ratio =
-            stats.deaths === 0 ? stats.kills : stats.kills / stats.deaths;
-        const countryName = country ? getCountry(country) : null;
-        return (
-            <div className={`observed ${player.team.side}`}>
-                <div className="main_row">
-                    {
-                        <Avatar
-                            steamid={player.steamid}
-                            height={140}
-                            width={140}
-                            showCam={this.state.showCam}
-                            slot={player.observer_slot}
-                        />
-                    }
-                    <div className="username_container">
-                        <div className="username">{player.name}</div>
-                        <div className="real_name">{player.realName}</div>
+const compareWeapon = (weaponOne: I.WeaponRaw, weaponTwo: I.WeaponRaw) => {
+    if (
+        weaponOne.name === weaponTwo.name &&
+        weaponOne.paintkit === weaponTwo.paintkit &&
+        weaponOne.type === weaponTwo.type &&
+        weaponOne.ammo_clip === weaponTwo.ammo_clip &&
+        weaponOne.ammo_clip_max === weaponTwo.ammo_clip_max &&
+        weaponOne.ammo_reserve === weaponTwo.ammo_reserve &&
+        weaponOne.state === weaponTwo.state
+    )
+        return true;
+
+    return false;
+};
+
+const compareWeapons = (
+    weaponsObjectOne: { [key: string]: I.WeaponRaw },
+    weaponsObjectTwo: { [key: string]: I.WeaponRaw }
+) => {
+    const weaponsOne = Object.values(weaponsObjectOne).sort(
+        (a, b) => (a.name as any) - (b.name as any)
+    );
+    const weaponsTwo = Object.values(weaponsObjectTwo).sort(
+        (a, b) => (a.name as any) - (b.name as any)
+    );
+
+    if (weaponsOne.length !== weaponsTwo.length) return false;
+
+    return weaponsOne.every((weapon, i) =>
+        compareWeapon(weapon, weaponsTwo[i])
+    );
+};
+
+const arePlayersEqual = (playerOne: I.Player, playerTwo: I.Player) => {
+    if (
+        playerOne.name === playerTwo.name &&
+        playerOne.steamid === playerTwo.steamid &&
+        playerOne.observer_slot === playerTwo.observer_slot &&
+        playerOne.defaultName === playerTwo.defaultName &&
+        playerOne.clan === playerTwo.clan &&
+        playerOne.stats.kills === playerTwo.stats.kills &&
+        playerOne.stats.assists === playerTwo.stats.assists &&
+        playerOne.stats.deaths === playerTwo.stats.deaths &&
+        playerOne.stats.mvps === playerTwo.stats.mvps &&
+        playerOne.stats.score === playerTwo.stats.score &&
+        playerOne.state.health === playerTwo.state.health &&
+        playerOne.state.armor === playerTwo.state.armor &&
+        playerOne.state.helmet === playerTwo.state.helmet &&
+        playerOne.state.defusekit === playerTwo.state.defusekit &&
+        playerOne.state.flashed === playerTwo.state.flashed &&
+        playerOne.state.smoked === playerTwo.state.smoked &&
+        playerOne.state.burning === playerTwo.state.burning &&
+        playerOne.state.money === playerTwo.state.money &&
+        playerOne.state.round_killhs === playerTwo.state.round_killhs &&
+        playerOne.state.round_kills === playerTwo.state.round_kills &&
+        playerOne.state.round_totaldmg === playerTwo.state.round_totaldmg &&
+        playerOne.state.equip_value === playerTwo.state.equip_value &&
+        playerOne.state.adr === playerTwo.state.adr &&
+        playerOne.avatar === playerTwo.avatar &&
+        playerOne.country === playerTwo.country &&
+        playerOne.realName === playerTwo.realName &&
+        compareWeapons(playerOne.weapons, playerTwo.weapons)
+    )
+        return true;
+
+    return false;
+};
+
+const Player = ({ player }: IProps) => {
+    const weapons = Object.values(player.weapons).map((weapon) => ({
+        ...weapon,
+        name: weapon.name.replace("weapon_", ""),
+    }));
+    const primary =
+        weapons.filter(
+            (weapon) =>
+                !["C4", "Pistol", "Knife", "Grenade", undefined].includes(
+                    weapon.type
+                )
+        )[0] || null;
+    const secondary =
+        weapons.filter((weapon) => weapon.type === "Pistol")[0] || null;
+    const grenades = weapons.filter((weapon) => weapon.type === "Grenade");
+
+    const currentWeapon = weapons.filter(
+        (weapon) => weapon.state === "active"
+    )[0];
+    return (
+        <div
+            className={`player-observed ${
+                player.state.health === 0 ? "dead" : ""
+            }
+            ${player.team.side}`}
+        >
+            <div className="player_data">
+                <Avatar
+                    steamid={player.steamid}
+                    height={57}
+                    width={57}
+                    showSkull={false}
+                    showCam={false}
+                    sidePlayer={true}
+                />
+                <div className="dead-stats">
+                    <div className="labels">
+                        <div className="stat-label">K</div>
+                        <div className="stat-label">A</div>
+                        <div className="stat-label">D</div>
                     </div>
-                    <TeamLogo team={player.team} height={35} width={35} />
-                    <div className="flag">
-                        {countryName ? (
-                            <img
-                                src={`${apiUrl}files/img/flags/${countryName.replace(
-                                    / /g,
-                                    "-"
-                                )}.png`}
-                                alt={countryName}
-                            />
-                        ) : (
-                            ""
-                        )}
-                    </div>
-                    <div className="grenade_container">
-                        {grenades.map((grenade) => (
-                            <React.Fragment
-                                key={`${player.steamid}_${grenade.name}_${
-                                    grenade.ammo_reserve || 1
-                                }`}
-                            >
-                                <Weapon
-                                    weapon={grenade.name}
-                                    active={grenade.state === "active"}
-                                    isGrenade
-                                />
-                                {grenade.ammo_reserve === 2 ? (
-                                    <Weapon
-                                        weapon={grenade.name}
-                                        active={grenade.state === "active"}
-                                        isGrenade
-                                    />
-                                ) : null}
-                            </React.Fragment>
-                        ))}
+                    <div className="values">
+                        <div className="stat-value">{player.stats.kills}</div>
+                        <div className="stat-value">{player.stats.assists}</div>
+                        <div className="stat-value">{player.stats.deaths}</div>
                     </div>
                 </div>
-                <div className="stats_row">
-                    <div className="health_armor_container">
-                        <div className="health-icon icon">
-                            <HealthFull />
-                        </div>
-                        <div className="health text">{player.state.health}</div>
-                        <div className="armor-icon icon">
-                            {player.state.helmet ? (
-                                <ArmorHelmet />
-                            ) : (
-                                <ArmorFull />
-                            )}
-                        </div>
-                        <div className="health text">{player.state.armor}</div>
-                    </div>
-                    <div className="statistics">
-                        <Statistic label={"K"} value={stats.kills} />
-                        <Statistic label={"A"} value={stats.assists} />
-                        <Statistic label={"D"} value={stats.deaths} />
-                        <Statistic label={"K/D"} value={ratio.toFixed(2)} />
-                    </div>
-                    <div className="ammo">
-                        <div className="ammo_icon_container">
-                            <Bullets />
-                        </div>
-                        <div className="ammo_counter">
-                            <div className="ammo_clip">
-                                {(currentWeapon && currentWeapon.ammo_clip) ||
-                                    "-"}
+                <div className="player_stats">
+                    <div className="row">
+                        <div className="username">
+                            <div>{player.name} </div>
+                            <div className="weapons">
+                                <div className="grenades">
+                                    {grenades.map((grenade) => [
+                                        <Weapon
+                                            key={`${grenade.name}-${grenade.state}`}
+                                            weapon={grenade.name}
+                                            active={
+                                                grenade.state === "active" &&
+                                                player.state.health > 0
+                                            }
+                                            isGrenade
+                                        />,
+                                        grenade.ammo_reserve === 2 ? (
+                                            <Weapon
+                                                key={`${grenade.name}-${grenade.state}-double`}
+                                                weapon={grenade.name}
+                                                active={
+                                                    grenade.state ===
+                                                        "active" &&
+                                                    player.state.health > 0
+                                                }
+                                                isGrenade
+                                            />
+                                        ) : null,
+                                    ])}
+                                </div>
+                                <div className="ammo">
+                                    <div className="ammo_counter">
+                                        {currentWeapon.ammo_clip && (
+                                            <div className="ammo_clip">
+                                                {(currentWeapon &&
+                                                    currentWeapon.ammo_clip) ||
+                                                    "-"}
+                                            </div>
+                                        )}
+                                        {currentWeapon.ammo_reserve && (
+                                            <div className="ammo_reserve">
+                                                /
+                                                {(currentWeapon &&
+                                                    currentWeapon.ammo_reserve) ||
+                                                    "-"}
+                                            </div>
+                                        )}
+                                    </div>
+                                    <div className="ammo_icon_container">
+                                        <Bullets />
+                                    </div>
+                                </div>
                             </div>
-                            <div className="ammo_reserve">
-                                /
-                                {(currentWeapon &&
-                                    currentWeapon.ammo_reserve) ||
-                                    "-"}
-                            </div>
                         </div>
+                    </div>
+                    <div
+                        className={`hp_bar ${
+                            player.state.health <= 20 ? "low" : ""
+                        }`}
+                        style={{ width: `${player.state.health}%` }}
+                    ></div>
+                    <div className="row" style={{ maxHeight: "35px" }}>
+                        <div className="health">{player.state.health}</div>
+
+                        <div className="armor_and_utility">
+                            <Bomb player={player} />
+                            <Armor player={player} />
+                            <Defuse player={player} />
+                        </div>
+                        {player.state.round_kills ? (
+                            <div className="roundkills-container">
+                                {new Array(player.state.round_kills)
+                                    .fill(0)
+                                    .map((_, i) => (
+                                        <div key={i} className="roundkill" />
+                                    ))}
+                            </div>
+                        ) : null}
                     </div>
                 </div>
             </div>
-        );
-    }
-}
+        </div>
+    );
+};
+
+const arePropsEqual = (
+    prevProps: Readonly<IProps>,
+    nextProps: Readonly<IProps>
+) => {
+    return arePlayersEqual(prevProps.player, nextProps.player);
+};
+
+export default React.memo(Player, arePropsEqual);
