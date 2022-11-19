@@ -55,6 +55,9 @@
                         justify-content: flex-end;
                     }
                     .money {
+                        h1 {
+                            color: darken(#00e645, 15%) !important;
+                        }
                         text-align: right;
                     }
                     .weapon {
@@ -260,7 +263,7 @@
                     display: flex;
                     align-items: center;
                     h1 {
-                        font-size: 1.25em;
+                        font-size: 1.3em;
                         width: 80px;
                         color: var(--color-moneys);
                         font-weight: 600;
