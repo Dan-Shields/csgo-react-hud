@@ -1,6 +1,6 @@
 import React from "react";
 import Layout from "./HUD/Layout/Layout";
-import api from "./api/api";
+import api, { isDev } from "./api/api";
 import { loadAvatarURL } from "./api/avatars";
 import ActionManager, { ConfigManager } from "./api/actionManager";
 
@@ -12,14 +12,10 @@ import exampleGsi from "./example_gsi.json";
 
 let isInWindow = !!window.parent.electronAPI;
 
-export const { GSI, socket } = GSISocket(`localhost:1337`, "update_csgo");
+export const { GSI, socket } = GSISocket(`localhost:1351`, "update_csgo");
 
-if (isInWindow) {
-    window.parent.electronAPI.onCsgoRaw((data: CSGORaw) => {
-        GSI.digest(data);
-    });
-} else {
-    setInterval(() => {
+if (isDev) {
+    setTimeout(() => {
         GSI.digest(exampleGsi as CSGORaw);
     }, 500);
 }
