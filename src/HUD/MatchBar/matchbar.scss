@@ -82,9 +82,9 @@
                 position: absolute;
                 left: 50%;
                 transform: translateX(-50%);
-                top: 6px;
-                max-height: 80%;
-                max-width: 80%;
+                bottom: 0;
+                max-height: 75%;
+                max-width: 75%;
             }
             &.hide {
                 display: none;
@@ -218,15 +218,14 @@
     position: fixed;
     display: none;
     opacity: 1;
-    width: 503px;
+    width: 340px;
     height: 50px;
     top: 92px;
     align-items: center;
     color: black;
     justify-content: center;
     background-color: white;
-    font-size: 20px;
-    font-family: Montserrat;
+    font-size: 28px;
     font-weight: 600;
     &.show {
         display: flex;
@@ -234,10 +233,10 @@
         animation-fill-mode: forwards;
     }
     &.right {
-        left: calc(50% + 71px);
+        left: calc(50% + 140px);
     }
     &.left {
-        right: calc(50% + 71px);
+        right: calc(50% + 140px);
     }
 }
 
@@ -245,7 +244,7 @@
     position: fixed;
     display: flex;
     opacity: 1;
-    width: 503px;
+    width: 340px;
     height: 49px;
     top: 92px;
     align-items: center;
@@ -263,18 +262,19 @@
         display: flex;
         text-transform: uppercase;
         align-items: flex-end;
+        font-size: 1.25em;
         svg {
-            margin-right: 13px;
+            margin-right: 6px;
         }
     }
     &.right {
-        left: calc(50% + 71px);
+        left: calc(50% + 140px);
         .defuse_plant_bar {
             left: 0;
         }
     }
     &.left {
-        right: calc(50% + 71px);
+        right: calc(50% + 140px);
         .defuse_plant_bar {
             right: 0;
         }

@@ -216,9 +216,7 @@ export default class TeamBox extends React.Component<IProps, IState> {
                     />
                     <div className={`score left`}>{left.score}</div>
                     <div id="timer" className={bo === 0 ? "no-bo" : ""}>
-                        <div id="round_now" className={isPlanted ? "hide" : ""}>
-                            {this.getRoundLabel()}
-                        </div>
+                        <div id="round_now">{this.getRoundLabel()}</div>
                         <div
                             id={`round_timer_text`}
                             className={isPlanted ? "hide" : ""}
