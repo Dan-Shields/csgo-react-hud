@@ -115,18 +115,6 @@ const Player = ({ player }: IProps) => {
                     showCam={false}
                     sidePlayer={true}
                 />
-                <div className="dead-stats">
-                    <div className="labels">
-                        <div className="stat-label">K</div>
-                        <div className="stat-label">A</div>
-                        <div className="stat-label">D</div>
-                    </div>
-                    <div className="values">
-                        <div className="stat-value">{player.stats.kills}</div>
-                        <div className="stat-value">{player.stats.assists}</div>
-                        <div className="stat-value">{player.stats.deaths}</div>
-                    </div>
-                </div>
                 <div className="player_stats">
                     <div className="row">
                         <div className="username">
@@ -157,28 +145,27 @@ const Player = ({ player }: IProps) => {
                                         ) : null,
                                     ])}
                                 </div>
-                                <div className="ammo">
-                                    <div className="ammo_counter">
-                                        {currentWeapon.ammo_clip && (
-                                            <div className="ammo_clip">
-                                                {(currentWeapon &&
-                                                    currentWeapon.ammo_clip) ||
-                                                    "-"}
-                                            </div>
-                                        )}
-                                        {currentWeapon.ammo_reserve && (
-                                            <div className="ammo_reserve">
-                                                /
-                                                {(currentWeapon &&
-                                                    currentWeapon.ammo_reserve) ||
-                                                    "-"}
-                                            </div>
-                                        )}
+                                {currentWeapon && (
+                                    <div className="ammo">
+                                        <div className="ammo_counter">
+                                            {currentWeapon.ammo_clip && (
+                                                <div className="ammo_clip">
+                                                    {(currentWeapon &&
+                                                        currentWeapon.ammo_clip) ||
+                                                        "-"}
+                                                </div>
+                                            )}
+                                            {currentWeapon.ammo_reserve && (
+                                                <div className="ammo_reserve">
+                                                    /
+                                                    {(currentWeapon &&
+                                                        currentWeapon.ammo_reserve) ||
+                                                        "-"}
+                                                </div>
+                                            )}
+                                        </div>
                                     </div>
-                                    <div className="ammo_icon_container">
-                                        <Bullets />
-                                    </div>
-                                </div>
+                                )}
                             </div>
                         </div>
                     </div>
